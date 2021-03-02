@@ -1,3 +1,3 @@
 # curso-redux
 
-repositorio para o curso de redux da origamid
+curso de redux da origamid
