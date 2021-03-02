@@ -9,6 +9,7 @@
 </head>
 <body>
   <div>
+    <h1>total: <span id="total"></span></h1>
     <button id="button">Inc</button>
   </div>
 
@@ -43,17 +44,31 @@
         return state 
     } 
 
-
-
     const store = Redux.createStore(reducer)
-    let state = store.getState()
-    console.log(state)
+    let state = store.getState() 
 
     store.dispatch(somar(5))
     store.dispatch(incrementar())
 
     state = store.getState()
     console.log(state)
+
+    const total = document.querySelector('#total')
+    
+
+    function render(){
+      state = store.getState()
+      console.log(state)
+      total.innerText = state  
+    }
+
+    render()   
+    
+    const unsub = store.subscribe(render)
+    store.dispatch(somar(3))
+
+    unsub()
+    
 
     const button = document.querySelector('#button')
     button.addEventListener('click', () => store.dispatch(incrementar()))
