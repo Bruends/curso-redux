@@ -33,43 +33,41 @@
 
     const initialState = 10
 
-    function reducer(state = initialState, action) {
-      if (action.type === INCREMENTAR)
-        return state + 1
-      
-      if (action.type === SOMAR)
-        return state + action.payload
-      
-      else 
+    function contador(state = initialState, action) {
+      switch (action.type) {
+        case INCREMENTAR:
+          return state + 1
+        
+        case SOMAR:
+          return state + action.payload
+        
+        default: 
         return state 
+      }
     } 
 
-    const store = Redux.createStore(reducer)
+    const reducers = Redux.combineReducers({contador})
+    const store = Redux.createStore(reducers)
     let state = store.getState() 
 
     store.dispatch(somar(5))
     store.dispatch(incrementar())
 
-    state = store.getState()
-    console.log(state)
-
+    
     const total = document.querySelector('#total')
     
 
     function render(){
-      state = store.getState()
+      const { contador } = store.getState()
       console.log(state)
-      total.innerText = state  
+      total.innerText = contador
     }
 
     render()   
     
     const unsub = store.subscribe(render)
     store.dispatch(somar(3))
-
-    unsub()
-    
-
+   
     const button = document.querySelector('#button')
     button.addEventListener('click', () => store.dispatch(incrementar()))
   </script>
