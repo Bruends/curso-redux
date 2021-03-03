@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,35 +8,33 @@
   <script src="./redux.min.js"></script>
   <title>Redux</title>
 </head>
+
 <body>
-  <div id="caixa" style="background: blue; height: 50px; width: 10px;">
-    
+  <div id="caixa" style="background: tomato; height: 50px; width: 10px;">
+
   </div>
 
   <script>
-    function reducer(state = 0, action) {
+    const initialState = {
+      nome: 'Bruno',
+      idade: 24
+    }
+
+    function reducer(state = initialState, action) {
       switch (action.type) {
-        case 'MODIFICAR_WIDTH':          
-          return action.payload
+        case 'MUDAR_NOME':          
+          return { ...state, nome: action.payload}
         default:
           return state
       }
     }
 
-    const store = Redux.createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() )
-    state = store.getState()
-    console.log(state)
-    store.dispatch({type: 'MODIFICAR_WIDTH', payload: 100}) 
-
-    function render() {
-      const caixa = document.querySelector('#caixa')
-      caixa.style.width = store.getState() + 'px'
-    }
-
-    render()
-
-    store.subscribe(render)
+    const store = Redux.createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
     
+
+    store.dispatch({type: 'MUDAR_NOME', payload: 'Br'})
+
   </script>
 </body>
+
 </html>
