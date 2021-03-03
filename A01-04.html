@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./redux.min.js"></script>
+  <title>Redux</title>
+</head>
+<body>
+  <div>
+    <h1>total: <span id="total"></span></h1>
+    <button id="button">Inc</button>
+  </div>
+
+  <script>
+    const INCREMENTAR = 'INCREMENTAR'
+    const SOMAR = 'SOMAR'
+    const REDUZIR = 'reduzir'
+
+    // action creators
+    function incrementar(){
+      return { type: INCREMENTAR }
+    }
+
+    function reduzir() {
+      return { type: REDUZIR }
+    }
+
+    function somar(payload) {
+      return { type: SOMAR, payload }
+    }
+
+    const initialState = 10
+
+    function contador(state = initialState, action) {
+      switch (action.type) {
+        case INCREMENTAR:
+          return state + 1
+        
+        case SOMAR:
+          return state + action.payload
+        
+        default: 
+        return state 
+      }
+    } 
+
+    const reducers = Redux.combineReducers({contador})
+    const store = Redux.createStore(reducers)
+    let state = store.getState() 
+
+    store.dispatch(somar(5))
+    store.dispatch(incrementar())
+
+    
+    const total = document.querySelector('#total')
+    
+
+    function render(){
+      const { contador } = store.getState()
+      console.log(state)
+      total.innerText = contador
+    }
+
+    render()   
+    
+    const unsub = store.subscribe(render)
+    store.dispatch(somar(3))
+   
+    const button = document.querySelector('#button')
+    button.addEventListener('click', () => store.dispatch(incrementar()))
+  </script>
+</body>
+</html>
